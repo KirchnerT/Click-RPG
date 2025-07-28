@@ -1,7 +1,5 @@
+class_name Player
 extends CharacterBody2D
 
-
-
-func _on_movement_component_update_velocity(_velocity: Vector2) -> void:
-	velocity = velocity.move_toward(_velocity, 100)
-	move_and_slide()
+func move_to(target_pos: Vector2) -> void:
+	self.global_position = target_pos

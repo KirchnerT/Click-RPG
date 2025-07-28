@@ -1,3 +1,4 @@
+class_name TileMapManager
 extends Node2D
 
 const CHUNK_SIZE = 32
@@ -8,6 +9,12 @@ const WORLD_HEIGHT_CHUNKS = 5
 const NOISE_SCALE = 0.01
 
 @onready var terrain_layer: TileMapLayer = $TerrainLayer
+
+
+@onready var astar = AStar2D.new()
+@onready var used_cells: Array[Vector2i]
+var path: PackedVector2Array
+
 
 @export var biome_tiles: Dictionary
 
@@ -29,6 +36,36 @@ func _ready():
 	_initialize_noise()
 	_generate_all_chunks()
 	_render_chunks()
+	
+	# AStar Stuff
+	used_cells = terrain_layer.get_used_cells()
+	_add_points()
+	_connect_points()
+
+func _add_points():
+	for cell in used_cells:
+		astar.add_point(id(cell), cell, 1.0)
+
+func _connect_points():
+	for cell: Vector2i in used_cells:
+		# RIGHT, LEFT, DOWN, UP
+		var neighbors = [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]
+		for neighbor: Vector2i in neighbors:
+			var next_cell = cell + neighbor
+			if used_cells.has(next_cell):
+				astar.connect_points(id(cell), id(next_cell), false)
+
+func _get_path(start: Vector2i, end: Vector2i) -> PackedVector2Array:
+	path = astar.get_point_path(id(start), id(end))
+	path.remove_at(0)
+	return path
+
+# Cantor pairing function
+func id(point):
+	var a = point.x
+	var b = point.y
+	# Formula that will NEVER have duplicate ids
+	return (a + b) * (a + b + 1) / 2 + b
 
 func _initialize_noise():
 	height_noise = FastNoiseLite.new()
@@ -64,7 +101,7 @@ func _generate_chunk(chunk_coord: Vector2i) -> Dictionary:
 			tile.temperature = temp_noise.get_noise_2d(wx + 5000, wy + 5000)
 			tile.moisture = moisture_noise.get_noise_2d(wx + 10000, wy + 10000)
 			tile.biome = get_biome(tile.height, tile.temperature, tile.moisture)
-
+			
 			chunk[Vector2i(x, y)] = tile
 	return chunk
 
@@ -90,3 +127,11 @@ func _render_chunks():
 
 			var tile_id: Vector2i = biome_to_tile_id(tile.biome)
 			terrain_layer.set_cell(world_pos, 1, tile_id)
+
+func get_world_pos_from_tile_coords(tile_pos: Vector2) -> Vector2:
+	var tile_center_pos = terrain_layer.map_to_local(tile_pos)
+	return self.to_global(tile_center_pos)
+
+func get_tile_coords_from_world_pos(world_pos: Vector2) -> Vector2i:
+	var tile_coords: Vector2i = terrain_layer.local_to_map(self.to_local(world_pos))
+	return tile_coords
