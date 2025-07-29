@@ -6,6 +6,9 @@ var grid: WorldGrid
 var pathfinder: AStarPathfinder
 var player: Player
 
+@export var forest_tree: PackedScene
+
+
 var is_moving: bool = false
 var noise = FastNoiseLite.new()
 
@@ -28,6 +31,12 @@ func _ready() -> void:
 	# Populate tile map with players and structures
 	# Spawn player
 	move_entity(player, Vector2i(0,0), Vector2i(10,10))
+	
+	# Spawn Test Tree
+	var new_tree: Node2D = forest_tree.instantiate()
+	self.add_child(new_tree)
+	move_entity(new_tree, Vector2i(0,0), Vector2i(12,12))
+
 
 func generate_chunk(chunk_coords: Vector2i):
 	if grid.is_chunk_loaded(chunk_coords):
@@ -51,6 +60,9 @@ func generate_chunk(chunk_coords: Vector2i):
 					grid.set_block(global_x, global_y, true)
 				"mountain":
 					grid.set_block(global_x, global_y, true)
+				"forest":
+					#place tree
+					pass
 
 	grid.mark_chunk_loaded(chunk_coords)  # ✅ Now mark it as loaded AFTER generation
 	render_chunk(chunk_coords)
@@ -76,7 +88,7 @@ func render_chunk(chunk_coords: Vector2i):
 
 func get_biome_type(x: int, y: int) -> String:
 	var value = noise.get_noise_2d(x, y)
-	if value < -0.2:
+	if value < -0.4:
 		return "water"
 	elif value < 0:
 		return "plains"
@@ -90,11 +102,44 @@ func move_entity(entity: Node2D, from: Vector2i, to: Vector2i):
 	grid.set_entity(to, entity)
 	entity.global_position = tile_map_manager.get_world_pos_from_tile_coords(to)
 	
+	var tile_y = entity.global_position.y
+	entity.z_index = int(tile_y)
+	
 func _input(event):
 	if (event.is_action_pressed("CHARACTER_ACTION_1")) && !is_moving:
 		var mouse_pos: Vector2i = tile_map_manager.get_tile_coords_from_world_pos(get_global_mouse_position())
-		
 		var player_pos_in_map: Vector2i = tile_map_manager.get_tile_coords_from_world_pos(player.global_position)
+
+		# Check if tile has entity
+		var entity_on_grid: Node2D = grid.get_entity(mouse_pos)
+		if entity_on_grid != null:
+			# Find closest node to tree
+			var neighbors = [Vector2i(mouse_pos.x + 1, mouse_pos.y), Vector2i(mouse_pos.x - 1, mouse_pos.y),
+							Vector2i(mouse_pos.x, mouse_pos.y + 1), Vector2i(mouse_pos.x, mouse_pos.y - 1),
+							Vector2i(mouse_pos.x + 1, mouse_pos.y + 1), Vector2i(mouse_pos.x - 1, mouse_pos.y - 1),
+							Vector2i(mouse_pos.x - 1, mouse_pos.y + 1), Vector2i(mouse_pos.x + 1, mouse_pos.y - 1)]
+			
+			var closest_path: Array = []
+			var closest_path_count: int = 0
+			for neighbor in neighbors:
+				if grid.is_walkable(mouse_pos.x, mouse_pos.y):
+					var path = pathfinder.find_path(grid, player_pos_in_map, neighbor)
+					if closest_path_count == 0 || path.size() < closest_path_count:
+						closest_path = path
+						closest_path_count = path.size()
+			
+			if closest_path != []:
+				load_chunks_around(closest_path[closest_path_count-1])
+				await move(player, closest_path)
+				# do action
+				entity_on_grid.test()
+				return
+			else: 
+				return
+		
+		if !grid.is_walkable(mouse_pos.x, mouse_pos.y):
+			return
+		
 		var path = pathfinder.find_path(grid, player_pos_in_map, mouse_pos)
 		print("Path:", path)
 		

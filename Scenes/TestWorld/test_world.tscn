@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://ip63g3h7esvf"]
+[gd_scene load_steps=11 format=3 uid="uid://ip63g3h7esvf"]
 
 [ext_resource type="Script" uid="uid://y6tqjb57djnd" path="res://Scenes/TestWorld/test_world.gd" id="1_7m0fo"]
+[ext_resource type="PackedScene" uid="uid://bfnx2bl0wxtpw" path="res://tree.tscn" id="2_7m0fo"]
 [ext_resource type="Script" uid="uid://dteilym2orr78" path="res://Camera/camera_movement.gd" id="3_f5ruf"]
 [ext_resource type="Script" uid="uid://fknnyln28xqa" path="res://tile_map_manager.gd" id="4_o30jb"]
 [ext_resource type="Texture2D" uid="uid://bm6n1h5exu17o" path="res://TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks_1.1update.png" id="5_4caup"]
@@ -276,6 +277,7 @@ sources/1 = SubResource("TileSetAtlasSource_kt6p6")
 
 [node name="TestWorld" type="Node2D"]
 script = ExtResource("1_7m0fo")
+forest_tree = ExtResource("2_7m0fo")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(169, 137)

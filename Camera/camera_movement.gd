@@ -5,7 +5,7 @@ extends Camera2D
 @onready var player: Player = $"../Player"
 
 const CAMERA_MOVE_BOUNDARY: float = 100.0
-const MIN_ZOOM: Vector2 = Vector2(2, 2)
+const MIN_ZOOM: Vector2 = Vector2(.5, .5)
 const MAX_ZOOM: Vector2 = Vector2(8, 8)
 
 var mouse_in_window: bool = false

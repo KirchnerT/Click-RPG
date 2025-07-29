@@ -9,6 +9,7 @@ const WORLD_HEIGHT_CHUNKS = 5
 const NOISE_SCALE = 0.01
 
 @onready var terrain_layer: TileMapLayer = $TerrainLayer
+@onready var prop_layer: TileMapLayer = $PropLayer
 
 @export var biome_tiles: Dictionary
 
