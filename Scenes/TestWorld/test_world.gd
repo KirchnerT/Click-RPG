@@ -76,7 +76,7 @@ func render_chunk(chunk_coords: Vector2i):
 
 func get_biome_type(x: int, y: int) -> String:
 	var value = noise.get_noise_2d(x, y)
-	if value < -0.5:
+	if value < -0.2:
 		return "water"
 	elif value < 0:
 		return "plains"
