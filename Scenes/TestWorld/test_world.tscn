@@ -1,13 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://ip63g3h7esvf"]
+[gd_scene load_steps=10 format=3 uid="uid://ip63g3h7esvf"]
 
-[ext_resource type="Script" uid="uid://fknnyln28xqa" path="res://tile_map_manager.gd" id="1_1lwx6"]
-[ext_resource type="Script" uid="uid://y6tqjb57djnd" path="res://test_world.gd" id="1_lf0gk"]
-[ext_resource type="Texture2D" uid="uid://bm6n1h5exu17o" path="res://TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks_1.1update.png" id="2_dsnr4"]
-[ext_resource type="Texture2D" uid="uid://difp5jhdwa0pm" path="res://TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks.png" id="3_lf0gk"]
-[ext_resource type="PackedScene" uid="uid://c6mtgdysg6x7h" path="res://character.tscn" id="4_dsnr4"]
+[ext_resource type="Script" uid="uid://y6tqjb57djnd" path="res://Scenes/TestWorld/test_world.gd" id="1_7m0fo"]
+[ext_resource type="Script" uid="uid://dteilym2orr78" path="res://Camera/camera_movement.gd" id="3_f5ruf"]
+[ext_resource type="Script" uid="uid://fknnyln28xqa" path="res://tile_map_manager.gd" id="4_o30jb"]
+[ext_resource type="Texture2D" uid="uid://bm6n1h5exu17o" path="res://TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks_1.1update.png" id="5_4caup"]
+[ext_resource type="Texture2D" uid="uid://difp5jhdwa0pm" path="res://TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks.png" id="6_y374x"]
+[ext_resource type="PackedScene" uid="uid://c6mtgdysg6x7h" path="res://Characters/Player/player.tscn" id="7_7cjmj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cnaw2"]
-texture = ExtResource("2_dsnr4")
+texture = ExtResource("5_4caup")
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
 0:0/0/texture_origin = Vector2i(0, -4)
@@ -81,7 +82,7 @@ texture_region_size = Vector2i(18, 18)
 4:0/0/texture_origin = Vector2i(0, -4)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kt6p6"]
-texture = ExtResource("3_lf0gk")
+texture = ExtResource("6_y374x")
 texture_region_size = Vector2i(18, 18)
 0:0/next_alternative_id = 2
 0:0/0 = 0
@@ -274,15 +275,16 @@ sources/0 = SubResource("TileSetAtlasSource_cnaw2")
 sources/1 = SubResource("TileSetAtlasSource_kt6p6")
 
 [node name="TestWorld" type="Node2D"]
-script = ExtResource("1_lf0gk")
+script = ExtResource("1_7m0fo")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(169, 137)
 zoom = Vector2(4, 4)
+script = ExtResource("3_f5ruf")
 
 [node name="TileMapManager" type="Node2D" parent="."]
-position = Vector2(165, 120)
-script = ExtResource("1_1lwx6")
+position = Vector2(113, 118)
+script = ExtResource("4_o30jb")
 biome_tiles = {
 "Forest": Vector2i(0, 1),
 "Plains": Vector2i(0, 2),
@@ -293,5 +295,8 @@ biome_tiles = {
 [node name="TerrainLayer" type="TileMapLayer" parent="TileMapManager"]
 tile_set = SubResource("TileSet_uu1iw")
 
-[node name="Character" parent="." instance=ExtResource("4_dsnr4")]
+[node name="PropLayer" type="TileMapLayer" parent="TileMapManager"]
+tile_set = SubResource("TileSet_uu1iw")
+
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("7_7cjmj")]
 position = Vector2(113, 130)
