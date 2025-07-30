@@ -295,10 +295,14 @@ biome_tiles = {
 }
 
 [node name="TerrainLayer" type="TileMapLayer" parent="TileMapManager"]
+z_index = -4096
 tile_set = SubResource("TileSet_uu1iw")
 
 [node name="PropLayer" type="TileMapLayer" parent="TileMapManager"]
+z_index = -4096
 tile_set = SubResource("TileSet_uu1iw")
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("7_7cjmj")]
 position = Vector2(113, 130)
+
+[node name="TreeContainer" type="Node2D" parent="."]

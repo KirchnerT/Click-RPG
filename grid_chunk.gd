@@ -16,6 +16,8 @@ func _init():
 			biomes[y].append("forest")  # default biome
 
 func is_walkable(local_pos: Vector2i) -> bool:
+	if get_entity(local_pos):
+		return 1 # Not walkable
 	return is_inside(local_pos) and tiles[local_pos.y][local_pos.x] == 0
 
 func is_inside(pos: Vector2i) -> bool:
