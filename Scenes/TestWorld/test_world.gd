@@ -1,16 +1,17 @@
 extends Node2D
 
 @onready var tile_map_manager: TileMapManager = $TileMapManager
+@onready var camera_2d: CameraMovement = $Camera2D
+
+@export var forest_tree: PackedScene
 
 var grid: WorldGrid
 var pathfinder: AStarPathfinder
 var player: Player
 
-@export var forest_tree: PackedScene
-
-
 var is_moving: bool = false
-var noise = FastNoiseLite.new()
+var tempurature_noise = FastNoiseLite.new()
+var height_noise = FastNoiseLite.new()
 var entity_noise = FastNoiseLite.new()
 
 func _ready() -> void:
@@ -21,24 +22,30 @@ func _ready() -> void:
 	if player == null:
 		printerr("PLAYER IS NULL IN TestWorld.gd")
 	
-	noise.seed = randi()
-	noise.frequency = 0.01
+	tempurature_noise.seed = randi()
+	tempurature_noise.frequency = 0.01
+	
+	height_noise.seed = randi()
+	height_noise.frequency = 0.01
 	
 	entity_noise.seed = randi() + 20
 	entity_noise.frequency = 0.5
 	
-	for x in range(-3, 4):
-		for y in range(-3, 4):
+	# TODO: Make a whole map generation script on load of new world
+	for x in range(-6, 7):
+		for y in range(-6, 7):
 			generate_chunk(Vector2i(x, y))
 	
-	
-	# Populate tile map with players and structures
-	# Spawn player
+	# Spawn player 
+	# Search for nearest grasslands near (0,0)
+	# Make sure all surrounding tiles are 1: valid 2: grasslands
 	move_entity(player, Vector2i(0,0), Vector2i(10,10))
+	camera_2d.global_position = player.global_position
 
 func generate_chunk(chunk_coords: Vector2i):
 	if grid.is_chunk_loaded(chunk_coords):
-		return  # ✅ Exit early only if it's already marked loaded
+		# Exit early only if it's already marked loaded
+		return
 	
 	print("Generating Chunk: ", chunk_coords)
 	
@@ -86,19 +93,24 @@ func render_chunk(chunk_coords: Vector2i):
 				"forest": tile_id = 1
 				"mountain": tile_id = 2
 				"water": tile_id = 3
+				"grasslands": tile_id = 4
 				_: tile_id = 0
 			tile_map_manager.set_cell(tile_pos, tile_id)
 
 func get_biome_type(x: int, y: int) -> String:
-	var value = noise.get_noise_2d(x, y)
-	if value < -0.4:
+	var tempurature_value = tempurature_noise.get_noise_2d(x, y)
+	var height_value = height_noise.get_noise_2d(x, y)
+	
+	if height_value < -0.4:
 		return "water"
-	elif value < 0:
+	elif height_value > 0.4:
+		return "mountain"
+	elif tempurature_value < -0.2:
 		return "plains"
-	elif value < 0.4:
+	elif tempurature_value < 0.3:
 		return "forest"
 	else:
-		return "mountain"
+		return "grasslands"
 
 func move_entity(entity: Node2D, from: Vector2i, to: Vector2i):
 	grid.remove_entity(from)
@@ -122,22 +134,7 @@ func _use_player_action_1():
 	# Check if tile has entity
 	var entity_on_grid: Node2D = grid.get_entity(mouse_pos)
 	if entity_on_grid != null:
-		## Find closest node to tree
-		#var neighbors = [Vector2i(mouse_pos.x + 1, mouse_pos.y), Vector2i(mouse_pos.x - 1, mouse_pos.y),
-						#Vector2i(mouse_pos.x, mouse_pos.y + 1), Vector2i(mouse_pos.x, mouse_pos.y - 1),
-						#Vector2i(mouse_pos.x + 1, mouse_pos.y + 1), Vector2i(mouse_pos.x - 1, mouse_pos.y - 1),
-						#Vector2i(mouse_pos.x - 1, mouse_pos.y + 1), Vector2i(mouse_pos.x + 1, mouse_pos.y - 1)]
-		#
-		## Search closest path for all neighbors to find the best route
-		#var closest_path: Array = []
-		#var closest_path_count: int = 0
-		#for neighbor in neighbors:
-			#if grid.is_walkable(mouse_pos.x, mouse_pos.y):
-				#var path = pathfinder.find_path(grid, player_pos_in_map, neighbor)
-				#if closest_path_count == 0 || path.size() < closest_path_count:
-					#closest_path = path
-					#closest_path_count = path.size()
-		#
+		## Find closest path
 		var closest_path: Array = find_best_reachable_tile_around(grid, mouse_pos, player_pos_in_map)
 		# Check is a closest path was found
 		if closest_path != []:
@@ -189,7 +186,7 @@ func move(entity: Node2D, path: Array[Vector2i]):
 func is_tile_valid_for_path(pos: Vector2i) -> bool:
 	return grid.is_tile_in_loaded_chunk(pos) and grid.is_walkable(pos.x, pos.y)
 
-func load_chunks_around(center_pos: Vector2i, radius: int = 3):
+func load_chunks_around(center_pos: Vector2i, radius: int = 4):
 	var center_chunk = grid._get_chunk_coords(center_pos)
 	for y in range(-radius, radius+1):
 		for x in range(-radius, radius+1):

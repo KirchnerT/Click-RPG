@@ -41,9 +41,10 @@ func set_cell(tile_pos, tile_id):
 	var atlas: Vector2i
 	match tile_id:
 		0: atlas = Vector2i(0,2)
-		1: atlas = Vector2i(0,0)
+		1: atlas = Vector2i(2,0)
 		2: atlas = Vector2i(0,5)
 		3: atlas = Vector2i(4,2)
+		4: atlas = Vector2i(0,0)
 		_: atlas = Vector2i(6,1)
 	terrain_layer.set_cell(tile_pos, 1, atlas)
 

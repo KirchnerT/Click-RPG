@@ -20,9 +20,9 @@ func _process(delta: float) -> void:
 
 func _input(event):
 	if is_movement_enabled && event.is_action_pressed("CAMERA_ZOOM_IN"):
-		_set_zoom(self.zoom * Vector2(1.25, 1.25))
+		_set_zoom(self.zoom + Vector2(0.25, 0.25))
 	elif is_movement_enabled && event.is_action_pressed("CAMERA_ZOOM_OUT"):
-		_set_zoom(self.zoom * Vector2(.75, .75))
+		_set_zoom(self.zoom - Vector2(0.25, 0.25))
 	elif is_movement_enabled && event.is_action_pressed("TRACK_PLAYER"):
 		self.position = player.position
 
