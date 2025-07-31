@@ -29,7 +29,7 @@ func _ready() -> void:
 	camera_2d.global_position = player.global_position
 
 func generate_starting_area():
-	for x in range(-1, 1):
-		for y in range(-1, 1):
+	for x in range(-3, 4):
+		for y in range(-3, 4):
 			world_generator.generate_chunk(Vector2i(x, y))
 	await get_tree().process_frame  # Ensure chunk data is ready
