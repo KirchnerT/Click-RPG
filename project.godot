@@ -15,6 +15,11 @@ run/main_scene="uid://ip63g3h7esvf"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+WorldGrid="*res://world_grid.gd"
+PathUtils="*res://path_utils.gd"
+
 [global_group]
 
 Player=""

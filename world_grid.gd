@@ -1,5 +1,6 @@
 # WorldGrid.gd
-class_name WorldGrid
+#class_name WorldGrid
+extends Node2D
 
 var loaded_chunks:= {}
 
@@ -8,6 +9,9 @@ var chunks: Dictionary = {}
 
 func _init():
 	pass
+
+func _ready():
+	print("WorldGrid initialized")
 
 func _get_chunk_coords(global_pos: Vector2i) -> Vector2i:
 	var chunk_x = global_pos.x / CHUNK_SIZE
@@ -57,11 +61,16 @@ func set_block(x: int, y: int, blocked: bool):
 	var chunk = get_or_create_chunk(chunk_coords)
 	chunk.set_block(local_pos, blocked)
 
-func set_entity(global_pos: Vector2i, entity: Object):
+func set_entity(global_pos: Vector2i, entity: Object, override: bool = false):
 	var chunk_coords = _get_chunk_coords(global_pos)
 	var local_pos = _get_local_pos(global_pos)
-	var chunk = get_or_create_chunk(chunk_coords)
-	chunk.set_entity(local_pos, entity)
+	
+	if !get_entity(global_pos) || override:
+		var chunk = get_or_create_chunk(chunk_coords)
+		chunk.set_entity(local_pos, entity)
+		entity.z_index = int(entity.global_position.y)
+	else:
+		printerr("ERR: Tried to set entity on filled tile")
 
 func remove_entity(global_pos: Vector2i):
 	var chunk_coords = _get_chunk_coords(global_pos)
@@ -101,3 +110,14 @@ func is_chunk_loaded(chunk_coords: Vector2i) -> bool:
 func is_tile_in_loaded_chunk(global_pos: Vector2i) -> bool:
 	var chunk_coords = _get_chunk_coords(global_pos)
 	return is_chunk_loaded(chunk_coords)
+
+func move_entity(entity: Node2D, from: Vector2i, to: Vector2i, to_global_pos: Vector2i):
+	WorldGrid.remove_entity(from)
+	WorldGrid.set_entity(to, entity)
+	entity.global_position = to_global_pos
+	
+	var tile_y = entity.global_position.y
+	entity.z_index = int(tile_y)
+
+func is_tile_reachable(global_pos: Vector2i) -> bool:
+	return is_tile_in_loaded_chunk(global_pos) and is_walkable(global_pos.x, global_pos.y) and get_entity(global_pos) == null

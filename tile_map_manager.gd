@@ -13,29 +13,8 @@ const NOISE_SCALE = 0.01
 
 @export var biome_tiles: Dictionary
 
-var height_noise: FastNoiseLite
-var temp_noise: FastNoiseLite
-var moisture_noise: FastNoiseLite
-
 func _ready():
-	randomize()
-	_initialize_noise()
-
-func _initialize_noise():
-	height_noise = FastNoiseLite.new()
-	height_noise.noise_type = FastNoiseLite.TYPE_PERLIN
-	height_noise.seed = randi()
-	height_noise.frequency = NOISE_SCALE
-
-	temp_noise = FastNoiseLite.new()
-	temp_noise.noise_type = FastNoiseLite.TYPE_PERLIN
-	temp_noise.seed = randi()
-	temp_noise.frequency = NOISE_SCALE
-	
-	moisture_noise = FastNoiseLite.new()
-	moisture_noise.noise_type = FastNoiseLite.TYPE_PERLIN
-	moisture_noise.seed = randi()
-	moisture_noise.frequency = NOISE_SCALE
+	pass
 
 func set_cell(tile_pos, tile_id):
 	var atlas: Vector2i

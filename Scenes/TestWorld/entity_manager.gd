@@ -1,0 +1,22 @@
+# EntityManager.gd
+extends Node
+class_name EntityManager
+
+@export var tree_scene: PackedScene
+@export var rock_scene: PackedScene
+@onready var tile_map_manager: TileMapManager = $"../TileMapManager"
+
+func spawn_entity(entity_type: String, tile_pos: Vector2i):
+	var scene: PackedScene = null
+	match entity_type:
+		"tree": scene = tree_scene
+		"rock": scene = rock_scene
+		#self.add_child(new_tree)
+		#WorldGrid.move_entity(new_tree, Vector2i(0, 0), Vector2i(global_x, global_y), tile_map_manager.get_world_pos_from_tile_coords(Vector2i(global_x, global_y)))
+
+	if scene:
+		var instance = scene.instantiate()
+		instance.tile_pos = tile_pos
+		instance.global_position = tile_map_manager.get_world_pos_from_tile_coords(tile_pos)
+		add_child(instance)
+		WorldGrid.set_entity(tile_pos, instance)

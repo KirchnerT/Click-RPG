@@ -3,8 +3,8 @@ extends Node
 
 const INF = 999999
 
-func find_path(grid: WorldGrid, start: Vector2i, end: Vector2i) -> Array:
-	if not grid.is_tile_in_loaded_chunk(start) or not grid.is_tile_in_loaded_chunk(end):
+func find_path(start: Vector2i, end: Vector2i) -> Array:
+	if not WorldGrid.is_tile_in_loaded_chunk(start) or not WorldGrid.is_tile_in_loaded_chunk(end):
 		print("Start or end not in loaded chunk")
 		return []
 
@@ -28,7 +28,7 @@ func find_path(grid: WorldGrid, start: Vector2i, end: Vector2i) -> Array:
 			return reconstruct_path(came_from, current)
 
 		open_set.remove_at(0)
-		for neighbor in get_neighbors(grid, current):
+		for neighbor in get_neighbors(current):
 			var tentative_g = g_score.get(current, INF) + 1
 			if tentative_g < g_score.get(neighbor, INF):
 				came_from[neighbor] = current
@@ -42,7 +42,7 @@ func find_path(grid: WorldGrid, start: Vector2i, end: Vector2i) -> Array:
 func heuristic(a: Vector2i, b: Vector2i) -> int:
 	return abs(a.x - b.x) + abs(a.y - b.y)  # Manhattan distance
 
-func get_neighbors(grid: WorldGrid, pos: Vector2i) -> Array:
+func get_neighbors(pos: Vector2i) -> Array:
 	var dirs = [
 		Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1),
 		Vector2i(1, 1), Vector2i(-1, -1), Vector2i(-1, 1), Vector2i(1, -1)
@@ -51,12 +51,12 @@ func get_neighbors(grid: WorldGrid, pos: Vector2i) -> Array:
 	for dir in dirs:
 		var n = pos + dir
 
-		if not grid.is_tile_in_loaded_chunk(n):
+		if not WorldGrid.is_tile_in_loaded_chunk(n):
 			# Only print once per frame maybe, or debug level
 			print("Skipping neighbor ", n, " (not loaded)")
 			continue
 
-		if grid.is_walkable(n.x, n.y) and grid.get_entity(n) == null:
+		if WorldGrid.is_walkable(n.x, n.y) and WorldGrid.get_entity(n) == null:
 			result.append(n)
 	return result
 
