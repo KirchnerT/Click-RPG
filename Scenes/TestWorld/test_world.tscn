@@ -281,14 +281,14 @@ sources/1 = SubResource("TileSetAtlasSource_kt6p6")
 [node name="TestWorld" type="Node2D"]
 script = ExtResource("1_7m0fo")
 
-[node name="EntityManager" type="Node2D" parent="."]
-script = ExtResource("2_o30jb")
-tree_scene = ExtResource("2_7m0fo")
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(169, 137)
 zoom = Vector2(4, 4)
 script = ExtResource("3_f5ruf")
+
+[node name="EntityManager" type="Node2D" parent="."]
+script = ExtResource("2_o30jb")
+tree_scene = ExtResource("2_7m0fo")
 
 [node name="InputController" type="Node2D" parent="."]
 script = ExtResource("3_xptdx")
@@ -299,12 +299,6 @@ script = ExtResource("4_f5ruf")
 [node name="TileMapManager" type="Node2D" parent="."]
 position = Vector2(113, 118)
 script = ExtResource("4_o30jb")
-biome_tiles = {
-"Forest": Vector2i(0, 1),
-"Plains": Vector2i(0, 2),
-"ShallowWater": Vector2i(4, 2),
-"Snow": Vector2i(3, 1)
-}
 
 [node name="TerrainLayer" type="TileMapLayer" parent="TileMapManager"]
 z_index = -4096

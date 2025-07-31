@@ -44,7 +44,6 @@ func generate_chunk(chunk_coords: Vector2i):
 				"mountain":
 					WorldGrid.set_block(global_x, global_y, true)
 				"forest":
-					# Spawn Test Tree
 					if entity_noise.get_noise_2d(x, y) > 0.2:
 						entity_manager.spawn_entity("tree", global_pos)
 						pass

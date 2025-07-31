@@ -1,17 +1,8 @@
 class_name TileMapManager
 extends Node2D
 
-const CHUNK_SIZE = 32
-const WORLD_WIDTH_CHUNKS = 5
-const WORLD_HEIGHT_CHUNKS = 5
-
-# Noise scale (inverse of frequency)
-const NOISE_SCALE = 0.01
-
 @onready var terrain_layer: TileMapLayer = $TerrainLayer
 @onready var prop_layer: TileMapLayer = $PropLayer
-
-@export var biome_tiles: Dictionary
 
 func _ready():
 	pass

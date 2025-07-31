@@ -19,9 +19,6 @@ func _ready() -> void:
 		printerr("PLAYER IS NULL IN TestWorld.gd")
 	
 	# TODO: Make a whole map generation script on load of new world
-	#for x in range(-6, 7):
-		#for y in range(-6, 7):
-			#world_generator.generate_chunk(Vector2i(x, y))
 	
 	await generate_starting_area()
 	#spawn_player()
