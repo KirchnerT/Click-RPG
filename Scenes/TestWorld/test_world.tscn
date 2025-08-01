@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ip63g3h7esvf"]
+[gd_scene load_steps=15 format=3 uid="uid://ip63g3h7esvf"]
 
 [ext_resource type="Script" uid="uid://y6tqjb57djnd" path="res://Scenes/TestWorld/test_world.gd" id="1_7m0fo"]
 [ext_resource type="PackedScene" uid="uid://bfnx2bl0wxtpw" path="res://tree.tscn" id="2_7m0fo"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://b7iky5ao7qrl3" path="res://Scenes/TestWorld/world_generator.gd" id="4_f5ruf"]
 [ext_resource type="Script" uid="uid://fknnyln28xqa" path="res://tile_map_manager.gd" id="4_o30jb"]
 [ext_resource type="Texture2D" uid="uid://bm6n1h5exu17o" path="res://TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks_1.1update.png" id="5_4caup"]
+[ext_resource type="PackedScene" uid="uid://c80hyne17h8bg" path="res://rock.tscn" id="5_y374x"]
 [ext_resource type="Texture2D" uid="uid://difp5jhdwa0pm" path="res://TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks.png" id="6_y374x"]
 [ext_resource type="PackedScene" uid="uid://c6mtgdysg6x7h" path="res://Characters/Player/player.tscn" id="7_7cjmj"]
 
@@ -289,6 +290,7 @@ script = ExtResource("3_f5ruf")
 [node name="EntityManager" type="Node2D" parent="."]
 script = ExtResource("2_o30jb")
 tree_scene = ExtResource("2_7m0fo")
+rock_scene = ExtResource("5_y374x")
 
 [node name="InputController" type="Node2D" parent="."]
 script = ExtResource("3_xptdx")

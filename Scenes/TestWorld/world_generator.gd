@@ -42,7 +42,13 @@ func generate_chunk(chunk_coords: Vector2i):
 				"water":
 					WorldGrid.set_block(global_x, global_y, true)
 				"mountain":
-					WorldGrid.set_block(global_x, global_y, true)
+					# Spawn rocks
+					#TODO: Update tree to be a new rock
+					#TODO: Add rocks with ore in them
+					if entity_noise.get_noise_2d(x, y) > 0.35:
+						entity_manager.spawn_entity("rock", global_pos)
+						pass
+					pass
 				"forest":
 					if entity_noise.get_noise_2d(x, y) > 0.2:
 						entity_manager.spawn_entity("tree", global_pos)

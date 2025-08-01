@@ -21,7 +21,7 @@ func _unhandled_input(event):
 
 		if !player.is_moving && WorldGrid.is_tile_in_loaded_chunk(tile_pos):
 			var entity = WorldGrid.get_entity(tile_pos)
-			if entity != null:
+			if entity != null and player != entity:
 				## Find closest path
 				if PathUtils.is_adjacent(player_pos_in_map, tile_pos):
 					handle_entity_interaction(tile_pos, entity)
@@ -69,7 +69,8 @@ func find_best_reachable_tile_around(target: Vector2i, from: Vector2i) -> Array:
 
 func handle_entity_interaction(tile_pos: Vector2i, entity):
 	if entity and entity.has_method("interact"):
-		entity.interact(player)
+		#entity.interact(player)
+		player.interact(entity)
 
 func load_chunks_around(center_pos: Vector2i, radius: int = 4):
 	var center_chunk = WorldGrid._get_chunk_coords(center_pos)

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c80hyne17h8bg"]
+
+[ext_resource type="Script" uid="uid://do5sgbfwsfjgy" path="res://rock.gd" id="1_wecdg"]
+[ext_resource type="Texture2D" uid="uid://cawjcj0s4si6o" path="res://test_rock.png" id="2_wecdg"]
+[ext_resource type="Script" uid="uid://c8t8hb7ms2ej" path="res://health_component.gd" id="3_o54ku"]
+
+[node name="Rock" type="Node2D"]
+script = ExtResource("1_wecdg")
+type = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+texture = ExtResource("2_wecdg")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+position = Vector2(-1, -16)
+script = ExtResource("3_o54ku")
+_max_health = 5
+
+[connection signal="is_dead" from="HealthComponent" to="." method="_on_health_component_is_dead"]
