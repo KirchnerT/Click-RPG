@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfnx2bl0wxtpw"]
+
+[ext_resource type="Script" uid="uid://cqee7yka3cdq7" path="res://entities/tree/tree.gd" id="1_nnvrw"]
+[ext_resource type="Texture2D" uid="uid://c81qbngwlhc3x" path="res://entities/tree/32x18_tree_01.png" id="2_gvmkm"]
+[ext_resource type="Script" uid="uid://c8t8hb7ms2ej" path="res://components/health_component.gd" id="3_gvmkm"]
+
+[node name="Tree" type="Node2D"]
+script = ExtResource("1_nnvrw")
+type = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1, -16)
+texture = ExtResource("2_gvmkm")
+
+[node name="HealthComponent" type="Node2D" parent="."]
+position = Vector2(-1, -16)
+script = ExtResource("3_gvmkm")
+_max_health = 10
+
+[connection signal="is_dead" from="HealthComponent" to="." method="_on_health_component_is_dead"]

@@ -17,8 +17,12 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-WorldGrid="*res://world_grid.gd"
-PathUtils="*res://path_utils.gd"
+WorldGrid="*res://utils/world_grid.gd"
+PathUtils="*res://utils/path_utils.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/Todo_Manager/plugin.cfg")
 
 [global_group]
 

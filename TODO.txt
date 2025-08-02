@@ -1,0 +1,21 @@
+TODO: Update World Grid to contain what asset texture || block type is on a space
+	  Example: Forest Biome, Basic Forest Tile
+			   Forest Biome, Burnt Tile
+			   Mountain Biome, Stone Tile
+	  This will be helpful for potentially having certain tiles be more beneficial. Or the player might
+	  be able to place tiles in the future. Will be nice for saving and loading the world as well.
+
+TODO: Add inventory
+TODO: Add Planter Entity
+TODO: Add Fire
+	  Fire can spread to nearby tiles
+	  This will require the expansion of the world grid system to include if a tile has an effect on it
+	  Helpful for save loading
+	  Helpful for spells that linger || oil on the ground
+	  Example: A tile can be in the forest biome, with a tree, and have oil on it.
+			   Then if a player sets the tile on fire it will burn a lot hotter
+	  Example: If a tile is on fire and water is applied, the fire goes out. Same with the 
+			   oppisite. If a tile has water on it, it cannot be set on fire.
+	  GREAT FOR COMBOS!!!!
+
+TODO: Add status effect sprites

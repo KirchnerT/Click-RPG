@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://ce20y3t1nofib"]
+
+[ext_resource type="Texture2D" uid="uid://btihabhs360s3" path="res://test_fire.png" id="1_ngwbu"]
+
+[node name="FireTest" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+texture = ExtResource("1_ngwbu")
