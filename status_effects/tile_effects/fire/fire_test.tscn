@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ce20y3t1nofib"]
 
-[ext_resource type="Texture2D" uid="uid://btihabhs360s3" path="res://test_fire.png" id="1_ngwbu"]
+[ext_resource type="Texture2D" uid="uid://btihabhs360s3" path="res://status_effects/tile_effects/fire/test_fire.png" id="1_ngwbu"]
 
 [node name="FireTest" type="Node2D"]
 

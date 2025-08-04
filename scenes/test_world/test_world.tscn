@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dscrcivvoarse" path="res://utils/tile_status_manager.gd" id="3_23qw8"]
 [ext_resource type="Script" uid="uid://dteilym2orr78" path="res://camera/camera_movement.gd" id="3_f5ruf"]
 [ext_resource type="Script" uid="uid://cbe52xpafdwpg" path="res://utils/input_controller.gd" id="3_xptdx"]
-[ext_resource type="PackedScene" uid="uid://ce20y3t1nofib" path="res://fire_test.tscn" id="4_5j624"]
+[ext_resource type="PackedScene" uid="uid://ce20y3t1nofib" path="res://status_effects/tile_effects/fire/fire_test.tscn" id="4_5j624"]
 [ext_resource type="Script" uid="uid://b7iky5ao7qrl3" path="res://utils/world_generator.gd" id="4_f5ruf"]
 [ext_resource type="Script" uid="uid://fknnyln28xqa" path="res://utils/tile_map_manager.gd" id="4_o30jb"]
 [ext_resource type="Texture2D" uid="uid://bm6n1h5exu17o" path="res://addons/TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks_1.1update.png" id="5_4caup"]

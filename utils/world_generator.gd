@@ -37,7 +37,8 @@ func generate_chunk(chunk_coords: Vector2i):
 			var global_pos = Vector2i(global_x, global_y)
 			var biome = get_biome_type(global_x, global_y)
 			WorldGrid.set_biome(global_pos, biome)
-
+			# TODO: WorldGrid.set_tile_sprite(global_pos) set sprite to random biome tile
+			
 			# Optional: set default walkability or visuals based on biome
 			match biome:
 				TileInfo.Biomes.WATER:

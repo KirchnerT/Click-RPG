@@ -7,6 +7,12 @@ var action_timer: Timer
 var cur_action: Action = Action.NONE
 var action_target: Entity
 
+@onready var sprite_component: SpriteComponent = $SpriteComponent
+
+@export_group("SpriteComponent")
+@export var texture_normal: AtlasTexture
+@export var texture_highlighted: AtlasTexture
+
 enum Action {
 	NONE,
 	CHOPPING,
@@ -21,6 +27,10 @@ func _ready() -> void:
 		action_timer = Timer.new()
 		add_child(action_timer)
 	action_timer.timeout.connect(action_timer_end)
+	
+	sprite_component.initialize({
+		"texture_normal": texture_normal, 
+		"texture_highlighted": texture_highlighted})
 
 func move_along_path(path: Array[Vector2i], tile_map_manager: TileMapManager) -> void:
 	cur_action = Action.NONE
@@ -94,3 +104,9 @@ func start_action(new_action_target: Entity, action_to_start: Action, action_tim
 	action_timer.start()
 	
 	return true
+
+func highlight() -> void:
+	sprite_component.highlight()
+
+func unhighlight() -> void:
+	sprite_component.unhighlight()

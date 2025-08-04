@@ -1,20 +1,30 @@
-[gd_scene load_steps=4 format=3 uid="uid://c80hyne17h8bg"]
+[gd_scene load_steps=7 format=3 uid="uid://c80hyne17h8bg"]
 
 [ext_resource type="Script" uid="uid://do5sgbfwsfjgy" path="res://entities/rock/rock.gd" id="1_wecdg"]
-[ext_resource type="Texture2D" uid="uid://cawjcj0s4si6o" path="res://entities/rock/test_rock.png" id="2_wecdg"]
-[ext_resource type="Script" uid="uid://c8t8hb7ms2ej" path="res://components/health_component.gd" id="3_o54ku"]
+[ext_resource type="Texture2D" uid="uid://8dsrs6noo4hh" path="res://entities/rock/rock_stone_01.png" id="2_w6lgk"]
+[ext_resource type="Script" uid="uid://c8t8hb7ms2ej" path="res://components/health_component/health_component.gd" id="3_o54ku"]
+[ext_resource type="PackedScene" uid="uid://bna0fj38m6n6t" path="res://components/sprite_component/sprite_component.tscn" id="3_w6lgk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k6amr"]
+atlas = ExtResource("2_w6lgk")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yntbg"]
+atlas = ExtResource("2_w6lgk")
+region = Rect2(18, 0, 18, 18)
 
 [node name="Rock" type="Node2D"]
 script = ExtResource("1_wecdg")
+texture_normal = SubResource("AtlasTexture_k6amr")
+texture_highlighted = SubResource("AtlasTexture_yntbg")
+max_health = 2
 type = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="SpriteComponent" parent="." instance=ExtResource("3_w6lgk")]
 position = Vector2(0, -9)
-texture = ExtResource("2_wecdg")
 
 [node name="HealthComponent" type="Node2D" parent="."]
 position = Vector2(-1, -16)
 script = ExtResource("3_o54ku")
-_max_health = 5
 
 [connection signal="is_dead" from="HealthComponent" to="." method="_on_health_component_is_dead"]

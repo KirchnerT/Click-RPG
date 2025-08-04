@@ -70,7 +70,7 @@ func highlight_entity(local_pos: Vector2i) -> void:
 		var tile_info: TileInfo = tiles_info[local_pos]
 		var entity: Node2D = tile_info.entity
 		if entity != null && entity.has_method("highlight"):
-			entity.z_index = int(RenderingServer.CANVAS_ITEM_Z_MAX)
+			#entity.z_index = int(RenderingServer.CANVAS_ITEM_Z_MAX)
 			entity.highlight()
 
 func unhighlight_entity(local_pos: Vector2i) -> void:
@@ -78,5 +78,5 @@ func unhighlight_entity(local_pos: Vector2i) -> void:
 		var tile_info: TileInfo = tiles_info[local_pos]
 		var entity: Node2D = tile_info.entity
 		if entity != null && entity.has_method("unhighlight"):
-			entity.z_index = int(entity.global_position.y)
+			#entity.z_index = int(entity.global_position.y)
 			entity.unhighlight()

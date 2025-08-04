@@ -1,16 +1,26 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6mtgdysg6x7h"]
+[gd_scene load_steps=7 format=3 uid="uid://c6mtgdysg6x7h"]
 
 [ext_resource type="Script" uid="uid://dsvmogmy4lka4" path="res://characters/player/player.gd" id="1_wa5vi"]
-[ext_resource type="Texture2D" uid="uid://clwy401166wmf" path="res://characters/player/18x18_character.png" id="2_j341n"]
+[ext_resource type="Texture2D" uid="uid://clwy401166wmf" path="res://characters/player/18x18_character.png" id="2_exd8k"]
+[ext_resource type="PackedScene" uid="uid://bna0fj38m6n6t" path="res://components/sprite_component/sprite_component.tscn" id="3_exd8k"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5dc8e"]
+atlas = ExtResource("2_exd8k")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixbpm"]
+atlas = ExtResource("2_exd8k")
+region = Rect2(18, 0, 18, 18)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wfnr8"]
 
 [node name="Character" type="CharacterBody2D"]
 script = ExtResource("1_wa5vi")
+texture_normal = SubResource("AtlasTexture_5dc8e")
+texture_highlighted = SubResource("AtlasTexture_ixbpm")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="SpriteComponent" parent="." instance=ExtResource("3_exd8k")]
 position = Vector2(0, -9)
-texture = ExtResource("2_j341n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -10)

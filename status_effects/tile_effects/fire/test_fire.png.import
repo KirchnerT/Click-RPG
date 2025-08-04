@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://btihabhs360s3"
-path="res://.godot/imported/test_fire.png-2833203d388484ca5eb9f2dfd93d1147.ctex"
+path="res://.godot/imported/test_fire.png-ed7444ea5fd7c346367eed22818f98ff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://test_fire.png"
-dest_files=["res://.godot/imported/test_fire.png-2833203d388484ca5eb9f2dfd93d1147.ctex"]
+source_file="res://status_effects/tile_effects/fire/test_fire.png"
+dest_files=["res://.godot/imported/test_fire.png-ed7444ea5fd7c346367eed22818f98ff.ctex"]
 
 [params]
 
