@@ -8,12 +8,22 @@ func _init():
 	for y in range(CHUNK_SIZE):
 		for x in range(CHUNK_SIZE):
 			var local_pos : Vector2i = Vector2i(x, y)
-			tiles_info[local_pos] = TileInfo.new()
+			var new_tile_info: TileInfo = TileInfo.new()
+			var new_sprite_info: TileInfo.TileSpriteInfo = TileInfo.TileSpriteInfo.new()
+			new_tile_info.tile_sprite_info = new_sprite_info
+			tiles_info[local_pos] = new_tile_info
 
 func get_tile_info(local_pos: Vector2i) -> TileInfo:
 	var tile_info: TileInfo = tiles_info[local_pos]
 	return tile_info
 
+func get_tile_sprite_info(local_pos: Vector2i) -> TileInfo.TileSpriteInfo:
+	var tile_info: TileInfo = get_tile_info(local_pos)
+	return tile_info.tile_sprite_info
+
+func set_tile_sprite_info(local_pos: Vector2i, new_info: TileInfo.TileSpriteInfo) -> void:
+	var tile_info: TileInfo = get_tile_info(local_pos)
+	tile_info.tile_sprite_info = new_info
 
 func is_walkable(local_pos: Vector2i) -> bool:
 	if get_entity(local_pos):

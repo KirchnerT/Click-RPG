@@ -64,22 +64,49 @@ func generate_chunk(chunk_coords: Vector2i):
 func render_chunk(chunk_coords: Vector2i):
 	var chunk = WorldGrid.get_chunk(chunk_coords)
 	if chunk == null:
-		generate_chunk(chunk_coords)
+		return
 	for y in range(GridChunk.CHUNK_SIZE):
 		for x in range(GridChunk.CHUNK_SIZE):
 			var global_x = chunk_coords.x * GridChunk.CHUNK_SIZE + x
 			var global_y = chunk_coords.y * GridChunk.CHUNK_SIZE + y
 			var tile_pos = Vector2i(global_x, global_y)
-			var biome = chunk.get_biome(Vector2i(x, y))
+			var local_pos = Vector2i(x, y)
+			var biome = chunk.get_biome(local_pos)
 			var tile_id: int
 			match biome:
-				TileInfo.Biomes.PLAINS: tile_id = 0
-				TileInfo.Biomes.FOREST: tile_id = 1
-				TileInfo.Biomes.MOUNTAIN: tile_id = 2
-				TileInfo.Biomes.WATER: tile_id = 3
-				TileInfo.Biomes.GRASSLANDS: tile_id = 4
-				_: tile_id = 0
-			tile_map_manager.set_cell(tile_pos, tile_id)
+				TileInfo.Biomes.PLAINS: 
+					tile_id = 0
+					tile_map_manager.set_cell(tile_pos, tile_id)
+				TileInfo.Biomes.FOREST: 
+					tile_id = 1
+					tile_map_manager.set_cell(tile_pos, tile_id)
+				TileInfo.Biomes.MOUNTAIN: 
+					tile_id = 2
+					tile_map_manager.set_cell(tile_pos, tile_id)
+				TileInfo.Biomes.WATER: 
+					tile_id = 3
+					tile_map_manager.set_cell(tile_pos, tile_id)
+				TileInfo.Biomes.GRASSLANDS: 
+					tile_id = 4
+					# set new tile in world grid based on biome
+					var source_id = TileUtils.grasslands_source_id
+					var rand_x: int = randi_range(0, TileUtils.grasslands_variants_x)
+					var rand_y: int = randi_range(0, TileUtils.grasslands_variants_y)
+					if rand_y != 0:
+						print("HERE")
+						print("X: ", rand_x)
+						print("Y: ", rand_y)
+					var atlas_coords = Vector2i(rand_x, rand_y)
+					var sprite_info: TileInfo.TileSpriteInfo = chunk.get_tile_sprite_info(local_pos)
+					sprite_info.atlas_coords = atlas_coords
+					sprite_info.source_id = source_id
+					chunk.set_tile_sprite_info(local_pos, sprite_info)
+					
+					tile_map_manager.update_cell_sprite(tile_pos, sprite_info, TileMapManager.Layers.TERRAIN)
+					
+				_: 
+					tile_id = 0
+					tile_map_manager.set_cell(tile_pos, tile_id)
 
 func get_biome_type(x: int, y: int) -> TileInfo.Biomes:
 	var tempurature_value = tempurature_noise.get_noise_2d(x, y)

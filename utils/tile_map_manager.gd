@@ -5,6 +5,12 @@ extends Node2D
 @onready var prop_layer: TileMapLayer = $PropLayer
 @onready var highlight_layer: TileMapLayer = $HighlightLayer
 
+enum Layers {
+	TERRAIN,
+	PROP,
+	HIGHLIGHT
+}
+
 func _ready():
 	pass
 
@@ -17,7 +23,13 @@ func _process(delta: float) -> void:
 	# TODO: Put what tile is in a specific spot
 	#       This way we can change the tile sprite to a highlited sprite whenever.
 
-func set_cell(tile_pos, tile_id):
+func update_cell_sprite(tile_pos, sprite_info: TileInfo.TileSpriteInfo, layer: Layers):
+	match layer:
+		Layers.TERRAIN:
+			terrain_layer.set_cell(tile_pos, sprite_info.source_id, sprite_info.atlas_coords)
+	pass
+
+func set_cell(tile_pos, tile_id, layer: int = 0):
 	var atlas: Vector2i
 	match tile_id:
 		0: atlas = Vector2i(0,2)

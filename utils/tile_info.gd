@@ -1,6 +1,6 @@
 class_name TileInfo
 
-var ground_tile: String
+var tile_sprite_info: TileSpriteInfo
 var biome: Biomes = Biomes.UNKNOWN
 var is_walkable: bool = true
 var entity: Object
@@ -15,4 +15,8 @@ enum Biomes {
 	WATER
 }
 
-# TODO Add ground tile class with sprite info. Also things like flamable
+class TileSpriteInfo:
+	var atlas_coords: Vector2i
+	var source_id: int
+
+# TODO Also things like flamable

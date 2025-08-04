@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://ip63g3h7esvf"]
+[gd_scene load_steps=19 format=3 uid="uid://ip63g3h7esvf"]
 
 [ext_resource type="Script" uid="uid://y6tqjb57djnd" path="res://scenes/test_world/test_world.gd" id="1_7m0fo"]
 [ext_resource type="PackedScene" uid="uid://bfnx2bl0wxtpw" path="res://entities/tree/tree.tscn" id="2_7m0fo"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://c80hyne17h8bg" path="res://entities/rock/rock.tscn" id="5_y374x"]
 [ext_resource type="Texture2D" uid="uid://difp5jhdwa0pm" path="res://addons/TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks.png" id="6_y374x"]
 [ext_resource type="PackedScene" uid="uid://c6mtgdysg6x7h" path="res://characters/player/player.tscn" id="7_7cjmj"]
+[ext_resource type="Texture2D" uid="uid://k8udox4ve3mx" path="res://tiles/18x18_grasslands_base.png" id="13_x7sl4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cnaw2"]
 texture = ExtResource("5_4caup")
@@ -273,6 +274,23 @@ texture_region_size = Vector2i(18, 18)
 9:1/0 = 0
 9:1/0/texture_origin = Vector2i(0, -4)
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oeqk3"]
+resource_name = "Grasslands"
+texture = ExtResource("13_x7sl4")
+texture_region_size = Vector2i(18, 18)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, -4)
+1:0/0 = 0
+1:0/0/texture_origin = Vector2i(0, -4)
+2:0/0 = 0
+2:0/0/texture_origin = Vector2i(0, -4)
+3:0/0 = 0
+3:0/0/texture_origin = Vector2i(0, -4)
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+
 [sub_resource type="TileSet" id="TileSet_uu1iw"]
 tile_shape = 1
 tile_layout = 5
@@ -280,6 +298,7 @@ tile_offset_axis = 1
 tile_size = Vector2i(18, 9)
 sources/0 = SubResource("TileSetAtlasSource_cnaw2")
 sources/1 = SubResource("TileSetAtlasSource_kt6p6")
+sources/2 = SubResource("TileSetAtlasSource_oeqk3")
 
 [node name="TestWorld" type="Node2D"]
 script = ExtResource("1_7m0fo")

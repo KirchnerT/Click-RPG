@@ -155,3 +155,15 @@ func highlight_tile(global_pos: Vector2i) -> void:
 		old_chunk.unhighlight_entity(old_local_pos)
 		chunk.highlight_entity(local_pos)
 		highlighted_tile_global_pos = global_pos
+
+func get_tile_sprite_info(global_pos: Vector2i) -> TileInfo.TileSpriteInfo:
+	var chunk_coords = _get_chunk_coords(global_pos)
+	var local_pos = _get_local_pos(global_pos)
+	var chunk = get_chunk(chunk_coords)
+	return chunk.get_tile_sprite_info(local_pos)
+
+func set_tile_sprite_info(global_pos: Vector2i, new_info: TileInfo.TileSpriteInfo) -> void:
+	var chunk_coords = _get_chunk_coords(global_pos)
+	var local_pos = _get_local_pos(global_pos)
+	var chunk = get_chunk(chunk_coords)
+	chunk.set_tile_sprite_info(local_pos, new_info)
