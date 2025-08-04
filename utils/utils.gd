@@ -1,0 +1,4 @@
+extends Node
+
+const MAX_INT: int = 9223372036854775807
+const MIN_INT: int = -9223372036854775808

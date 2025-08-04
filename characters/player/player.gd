@@ -15,6 +15,8 @@ enum Action {
 }
 
 func _ready() -> void:
+	z_as_relative = false
+	
 	if !action_timer:
 		action_timer = Timer.new()
 		add_child(action_timer)

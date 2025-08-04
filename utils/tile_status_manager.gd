@@ -5,7 +5,7 @@ extends Node2D
 @onready var tile_map_manager: TileMapManager = $"../TileMapManager"
 
 # Optional: Poll status updates every few seconds
-const STATUS_UPDATE_INTERVAL := 1.0
+const STATUS_UPDATE_INTERVAL := 10.0
 var _update_timer := 0.0
 
 func _process(delta: float) -> void:
@@ -15,8 +15,8 @@ func _process(delta: float) -> void:
 		_update_tile_statuses()
 
 func apply_status(global_pos: Vector2i, status_name: String, data := {}) -> void:
-	print("Applying status effect: ", status_name)
-	print("POS: ", global_pos)
+	#print("Applying status effect: ", status_name)
+	#print("POS: ", global_pos)
 	var current = WorldGrid.get_status(global_pos)
 	
 	match status_name:

@@ -27,7 +27,7 @@ func _unhandled_input(event):
 					# Find closest reachable tile around it and move
 					var closest_path = PathUtils.find_best_reachable_tile_around(tile_pos, player_pos_in_map, pathfinder)
 					if closest_path.size() > 0:
-						load_chunks_around(closest_path[-1])
+						world_generator.load_chunks_around(closest_path[-1])
 						await player.move_along_path(closest_path, tile_map_manager)
 						handle_entity_interaction(tile_pos, entity)
 			else:
@@ -70,14 +70,6 @@ func handle_entity_interaction(tile_pos: Vector2i, entity):
 		#entity.interact(player)
 		player.interact(entity)
 
-func load_chunks_around(center_pos: Vector2i, radius: int = 4):
-	var center_chunk = WorldGrid._get_chunk_coords(center_pos)
-	for y in range(-radius, radius+1):
-		for x in range(-radius, radius+1):
-			var chunk_coords = center_chunk + Vector2i(x, y)
-			if not WorldGrid.is_chunk_loaded(chunk_coords):
-				world_generator.generate_chunk(chunk_coords)
-
 func move_player_to_tile(tile_pos: Vector2i):
 	var player_tile_pos = tile_map_manager.get_tile_coords_from_world_pos(player.global_position)
 	if !WorldGrid.is_walkable(tile_pos.x, tile_pos.y):
@@ -85,5 +77,5 @@ func move_player_to_tile(tile_pos: Vector2i):
 	
 	var path = pathfinder.find_path(player_tile_pos, tile_pos)
 	if path.size() > 0:
-		load_chunks_around(path[path.size()-1])
+		world_generator.load_chunks_around(path[path.size()-1])
 		await player.move_along_path(path, tile_map_manager)

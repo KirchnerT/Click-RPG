@@ -26,7 +26,7 @@ func generate_chunk(chunk_coords: Vector2i):
 		# Exit early only if it's already marked loaded
 		return
 	
-	print("Generating Chunk: ", chunk_coords)
+	#print("Generating Chunk: ", chunk_coords)
 	
 	var chunk = WorldGrid.get_or_create_chunk(chunk_coords)
 
@@ -94,3 +94,11 @@ func get_biome_type(x: int, y: int) -> TileInfo.Biomes:
 		return TileInfo.Biomes.FOREST
 	else:
 		return TileInfo.Biomes.GRASSLANDS
+
+func load_chunks_around(center_pos: Vector2i, radius: int = 4):
+	var center_chunk = WorldGrid._get_chunk_coords(center_pos)
+	for y in range(-radius, radius+1):
+		for x in range(-radius, radius+1):
+			var chunk_coords = center_chunk + Vector2i(x, y)
+			if not WorldGrid.is_chunk_loaded(chunk_coords):
+				generate_chunk(chunk_coords)

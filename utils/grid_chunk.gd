@@ -10,6 +10,11 @@ func _init():
 			var local_pos : Vector2i = Vector2i(x, y)
 			tiles_info[local_pos] = TileInfo.new()
 
+func get_tile_info(local_pos: Vector2i) -> TileInfo:
+	var tile_info: TileInfo = tiles_info[local_pos]
+	return tile_info
+
+
 func is_walkable(local_pos: Vector2i) -> bool:
 	if get_entity(local_pos):
 		return 1 # Not walkable
@@ -59,3 +64,19 @@ func get_status(local_pos: Vector2i) -> Dictionary:
 		var tile_info: TileInfo = tiles_info[local_pos]
 		return tile_info.status_effects
 	return {}
+
+func highlight_entity(local_pos: Vector2i) -> void:
+	if is_inside(local_pos):
+		var tile_info: TileInfo = tiles_info[local_pos]
+		var entity: Node2D = tile_info.entity
+		if entity != null && entity.has_method("highlight"):
+			entity.z_index = int(RenderingServer.CANVAS_ITEM_Z_MAX)
+			entity.highlight()
+
+func unhighlight_entity(local_pos: Vector2i) -> void:
+	if is_inside(local_pos):
+		var tile_info: TileInfo = tiles_info[local_pos]
+		var entity: Node2D = tile_info.entity
+		if entity != null && entity.has_method("unhighlight"):
+			entity.z_index = int(entity.global_position.y)
+			entity.unhighlight()

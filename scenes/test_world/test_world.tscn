@@ -316,6 +316,10 @@ tile_set = SubResource("TileSet_uu1iw")
 z_index = -4096
 tile_set = SubResource("TileSet_uu1iw")
 
+[node name="HighlightLayer" type="TileMapLayer" parent="TileMapManager"]
+z_index = -4096
+tile_set = SubResource("TileSet_uu1iw")
+
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("7_7cjmj")]
 position = Vector2(113, 130)
 move_speed = 0.2

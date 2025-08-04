@@ -18,23 +18,70 @@ func _ready() -> void:
 		printerr("PLAYER IS NULL IN TestWorld.gd")
 	
 	# If new game
-	await generate_starting_area()
 	spawn_player()
-	# Search for nearest grasslands near (0,0)
-	# Make sure all surrounding tiles are 1: valid 2: grasslands
 	camera_2d.global_position = player.global_position
 	
-	
-	
 	# TEST
-	tile_status_manager.apply_status(Vector2i(11, 11), "fire")
+	#tile_status_manager.apply_status((tile_map_manager.get_tile_coords_from_world_pos(player.global_position)) + Vector2i(5, 3), "fire")
 	#tile_status_manager.apply_status(Vector2i(10, 4), "water")  # extinguishes fire, sets "wet"
 
-func generate_starting_area():
-	for x in range(-3, 4):
-		for y in range(-3, 4):
-			world_generator.generate_chunk(Vector2i(x, y))
-	await get_tree().process_frame  # Ensure chunk data is ready
-
 func spawn_player() -> void:
-	WorldGrid.move_entity(player, Vector2i(0,0), Vector2i(10,10), tile_map_manager.get_world_pos_from_tile_coords(Vector2i(10,10)))
+	var spawn_tile = find_grasslands_spawn_point(Vector2i(0, 0))
+	if spawn_tile != Vector2i(-1, -1):
+		#WorldGrid.set_entity(spawn_tile, player)
+		WorldGrid.move_entity(player, spawn_tile, spawn_tile, tile_map_manager.get_world_pos_from_tile_coords(spawn_tile))
+		world_generator.load_chunks_around(spawn_tile, 6)
+	else:
+		push_error("No grasslands spawn point found!")
+
+func find_grasslands_spawn_point(start: Vector2i, max_radius: int = 100) -> Vector2i:
+	var visited := {}
+	var queue := [start]
+	var distance := {start: 0}
+
+	while queue.size() > 0:
+		var current = queue.pop_front()
+		if visited.has(current):
+			continue
+		visited[current] = true
+
+		# Ensure chunk is generated
+		if not WorldGrid.is_tile_in_loaded_chunk(current):
+			var chunk_coords = WorldGrid._get_chunk_coords(current)
+			world_generator.generate_chunk(chunk_coords)
+
+		var tile = WorldGrid.get_tile(current)
+		if tile == null:
+			continue
+
+		var dist = distance.get(current, 0)
+		if dist > max_radius:
+			break  # Stop if too far
+
+		# Check if it's a valid grasslands spawn
+		if tile.biome == TileInfo.Biomes.GRASSLANDS and WorldGrid.is_walkable(current.x, current.y) and WorldGrid.get_entity(current) == null:
+			# Check if neighbors are also grasslands
+			var is_surrounded = true
+			var directions := [
+				Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1),
+				Vector2i(1, 1), Vector2i(-1, -1), Vector2i(-1, 1), Vector2i(1, -1),
+				Vector2i(2, 0), Vector2i(-2, 0), Vector2i(0, 2), Vector2i(0, -2),
+				Vector2i(2, 2), Vector2i(-2, -2), Vector2i(-2, 2), Vector2i(2, -2),
+				Vector2i(3, 0), Vector2i(-3, 0), Vector2i(0, 3), Vector2i(0, -3)
+			]
+			for dir in directions:
+				var neighbor = current + dir
+				if WorldGrid.get_biome(neighbor) != TileInfo.Biomes.GRASSLANDS:
+					is_surrounded = false
+			
+			if is_surrounded:
+				return current  # Found suitable spawn point
+
+		# Explore neighbors
+		for dir in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
+			var neighbor = current + dir
+			if not visited.has(neighbor):
+				queue.append(neighbor)
+				distance[neighbor] = dist + 1
+
+	return Vector2i(-1, -1)  # No valid spawn found
