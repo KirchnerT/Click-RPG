@@ -2,7 +2,7 @@
 class_name SpriteComponent
 extends ComponentBase
 
-@onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var sprite_to_show: Sprite2D = $SpriteToShow
 
 var _texture_normal: Texture2D
 var _texture_highlighted: Texture2D
@@ -16,7 +16,7 @@ func initialize(data: Dictionary = {}) -> void:
 	unhighlight()
 
 func highlight() -> void:
-	sprite_2d.texture = _texture_highlighted
+	sprite_to_show.texture = _texture_highlighted
 
 func unhighlight() -> void:
-	sprite_2d.texture = _texture_normal
+	sprite_to_show.texture = _texture_normal

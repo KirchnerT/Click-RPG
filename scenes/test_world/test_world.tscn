@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ip63g3h7esvf"]
+[gd_scene load_steps=20 format=3 uid="uid://ip63g3h7esvf"]
 
 [ext_resource type="Script" uid="uid://y6tqjb57djnd" path="res://scenes/test_world/test_world.gd" id="1_7m0fo"]
 [ext_resource type="PackedScene" uid="uid://bfnx2bl0wxtpw" path="res://entities/tree/tree.tscn" id="2_7m0fo"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://c80hyne17h8bg" path="res://entities/rock/rock.tscn" id="5_y374x"]
 [ext_resource type="Texture2D" uid="uid://difp5jhdwa0pm" path="res://addons/TiynBlocks_1.1/TinyBlock_innerLine/tinyBlocks.png" id="6_y374x"]
 [ext_resource type="PackedScene" uid="uid://c6mtgdysg6x7h" path="res://characters/player/player.tscn" id="7_7cjmj"]
+[ext_resource type="PackedScene" uid="uid://iab4qefc8cxd" path="res://entities/planter_box/planter_box.tscn" id="8_oeqk3"]
 [ext_resource type="Texture2D" uid="uid://k8udox4ve3mx" path="res://tiles/18x18_grasslands_base.png" id="13_x7sl4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cnaw2"]
@@ -286,10 +287,6 @@ texture_region_size = Vector2i(18, 18)
 2:0/0/texture_origin = Vector2i(0, -4)
 3:0/0 = 0
 3:0/0/texture_origin = Vector2i(0, -4)
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_uu1iw"]
 tile_shape = 1
@@ -304,7 +301,6 @@ sources/2 = SubResource("TileSetAtlasSource_oeqk3")
 script = ExtResource("1_7m0fo")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(169, 137)
 zoom = Vector2(4, 4)
 script = ExtResource("3_f5ruf")
 
@@ -316,6 +312,9 @@ fire_scene = ExtResource("4_5j624")
 script = ExtResource("2_o30jb")
 tree_scene = ExtResource("2_7m0fo")
 rock_scene = ExtResource("5_y374x")
+planter_scene = ExtResource("8_oeqk3")
+
+[node name="TreeContainer" type="Node2D" parent="EntityManager"]
 
 [node name="InputController" type="Node2D" parent="."]
 script = ExtResource("3_xptdx")
@@ -340,7 +339,4 @@ z_index = -4096
 tile_set = SubResource("TileSet_uu1iw")
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("7_7cjmj")]
-position = Vector2(113, 130)
 move_speed = 0.2
-
-[node name="TreeContainer" type="Node2D" parent="."]

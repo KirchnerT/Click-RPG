@@ -7,7 +7,7 @@ class_name Entity
 enum Type {
 	GENERIC,
 	TREE,
-	ROCK
+	ROCK,
 }
 
 func _ready():
@@ -15,6 +15,9 @@ func _ready():
 
 func interact(by: Node) -> void:
 	print("Entity of type %s interacted by %s" % [type, by.name])
+
+func uninteract(by: Node) -> void:
+	print("Entity of type %s uninteracted by %s" % [type, by.name])
 
 func highlight() -> void:
 	print("Entity of type %s has not setup highlighting" % [type])

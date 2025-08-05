@@ -17,7 +17,8 @@ enum Action {
 	NONE,
 	CHOPPING,
 	MINING,
-	MOVING
+	MOVING,
+	INTERACTIONMENU
 }
 
 func _ready() -> void:
@@ -33,11 +34,10 @@ func _ready() -> void:
 		"texture_highlighted": texture_highlighted})
 
 func move_along_path(path: Array[Vector2i], tile_map_manager: TileMapManager) -> void:
-	cur_action = Action.NONE
 	if path.is_empty():
 		return
 	
-	cur_action = Action.MOVING
+	start_action(null, Action.MOVING)
 	
 	for step in path:
 		var current_tile = tile_map_manager.get_tile_coords_from_world_pos(global_position)
@@ -51,11 +51,18 @@ func move_along_path(path: Array[Vector2i], tile_map_manager: TileMapManager) ->
 func interact(entity: Entity) -> void:
 	match entity.type:
 		Entity.Type.GENERIC:
+			open_interact_menu(entity)
 			pass
 		Entity.Type.TREE:
 			chop_tree(entity)
 		Entity.Type.ROCK:
 			mine_rock(entity)
+
+func open_interact_menu(entity: Entity) -> void:
+	if entity == action_target && cur_action == Action.INTERACTIONMENU:
+		return
+	start_action(entity, Action.INTERACTIONMENU)
+	entity.interact(self)
 
 func chop_tree(entity: Entity) -> void:
 	if entity == action_target && cur_action == Action.CHOPPING:
@@ -93,15 +100,19 @@ func action_timer_end() -> void:
 func update_activity(new_activity: Action) -> void:
 	cur_action = new_activity
 
-func start_action(new_action_target: Entity, action_to_start: Action, action_time: float) -> bool:
-	if cur_action != Action.NONE:
-		return false
+func start_action(new_action_target: Entity, action_to_start: Action, action_time: float = 0.0) -> bool:
+	if cur_action == Action.INTERACTIONMENU && action_to_start != Action.INTERACTIONMENU:
+		action_target.uninteract(self)
+	#elif cur_action != Action.NONE:
+		#return false
 	
 	cur_action = action_to_start
 	action_target = new_action_target
-	action_timer.wait_time = action_time
-	action_timer.one_shot = true
-	action_timer.start()
+	
+	if action_time != 0.0:
+		action_timer.wait_time = action_time
+		action_timer.one_shot = true
+		action_timer.start()
 	
 	return true
 

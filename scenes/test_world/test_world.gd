@@ -5,6 +5,7 @@ extends Node2D
 @onready var world_generator: Node2D = $WorldGenerator
 @onready var input_controller: InputController = $InputController
 @onready var tile_status_manager: TileStatusManager = $TileStatusManager
+@onready var entity_manager: EntityManager = $EntityManager
 
 var pathfinder: AStarPathfinder
 var player: Player
@@ -22,6 +23,7 @@ func _ready() -> void:
 	camera_2d.global_position = player.global_position
 	
 	# TEST
+	entity_manager.spawn_entity("planter", tile_map_manager.get_tile_coords_from_world_pos(player.global_position) + Vector2i(5, 3))
 	#tile_status_manager.apply_status((tile_map_manager.get_tile_coords_from_world_pos(player.global_position)) + Vector2i(5, 3), "fire")
 	#tile_status_manager.apply_status(Vector2i(10, 4), "water")  # extinguishes fire, sets "wet"
 
