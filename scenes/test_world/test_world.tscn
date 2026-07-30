@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://ip63g3h7esvf"]
+[gd_scene format=3 uid="uid://ip63g3h7esvf"]
 
 [ext_resource type="Script" uid="uid://y6tqjb57djnd" path="res://scenes/test_world/test_world.gd" id="1_7m0fo"]
 [ext_resource type="PackedScene" uid="uid://bfnx2bl0wxtpw" path="res://entities/tree/tree.tscn" id="2_7m0fo"]
@@ -297,46 +297,46 @@ sources/0 = SubResource("TileSetAtlasSource_cnaw2")
 sources/1 = SubResource("TileSetAtlasSource_kt6p6")
 sources/2 = SubResource("TileSetAtlasSource_oeqk3")
 
-[node name="TestWorld" type="Node2D"]
+[node name="TestWorld" type="Node2D" unique_id=1183751270]
 script = ExtResource("1_7m0fo")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=866910658]
 zoom = Vector2(4, 4)
 script = ExtResource("3_f5ruf")
 
-[node name="TileStatusManager" type="Node2D" parent="."]
+[node name="TileStatusManager" type="Node2D" parent="." unique_id=572189511]
 script = ExtResource("3_23qw8")
 fire_scene = ExtResource("4_5j624")
 
-[node name="EntityManager" type="Node2D" parent="."]
+[node name="EntityManager" type="Node2D" parent="." unique_id=1564549931]
 script = ExtResource("2_o30jb")
 tree_scene = ExtResource("2_7m0fo")
 rock_scene = ExtResource("5_y374x")
 planter_scene = ExtResource("8_oeqk3")
 
-[node name="TreeContainer" type="Node2D" parent="EntityManager"]
+[node name="TreeContainer" type="Node2D" parent="EntityManager" unique_id=880568070]
 
-[node name="InputController" type="Node2D" parent="."]
+[node name="InputController" type="Node2D" parent="." unique_id=1733090102]
 script = ExtResource("3_xptdx")
 
-[node name="WorldGenerator" type="Node2D" parent="."]
+[node name="WorldGenerator" type="Node2D" parent="." unique_id=1133962888]
 script = ExtResource("4_f5ruf")
 
-[node name="TileMapManager" type="Node2D" parent="."]
+[node name="TileMapManager" type="Node2D" parent="." unique_id=2079808088]
 position = Vector2(113, 118)
 script = ExtResource("4_o30jb")
 
-[node name="TerrainLayer" type="TileMapLayer" parent="TileMapManager"]
+[node name="TerrainLayer" type="TileMapLayer" parent="TileMapManager" unique_id=1190059385]
 z_index = -4096
 tile_set = SubResource("TileSet_uu1iw")
 
-[node name="PropLayer" type="TileMapLayer" parent="TileMapManager"]
+[node name="PropLayer" type="TileMapLayer" parent="TileMapManager" unique_id=13074808]
 z_index = -4096
 tile_set = SubResource("TileSet_uu1iw")
 
-[node name="HighlightLayer" type="TileMapLayer" parent="TileMapManager"]
+[node name="HighlightLayer" type="TileMapLayer" parent="TileMapManager" unique_id=437123755]
 z_index = -4096
 tile_set = SubResource("TileSet_uu1iw")
 
-[node name="Player" parent="." groups=["Player"] instance=ExtResource("7_7cjmj")]
+[node name="Player" parent="." unique_id=608738524 groups=["Player"] instance=ExtResource("7_7cjmj")]
 move_speed = 0.2
